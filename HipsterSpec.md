@@ -7,9 +7,9 @@
 >>####2) Provides headcount of attendees upon request
 
 ###B) Provides *admin* privelages through a password to Genevieve
->>####1) Allows her to set meetup message
->>####2) Allows her to see list of developers
->>####3) Allows her to clear list of developers
+>>####1) "new_meet" Allows her to set new meetup message
+>>####2) "rsvp_list" Allows her to see list of RSVPS
+>>####3) "clear" Allows her to clear list of RSVPS
 
 
 

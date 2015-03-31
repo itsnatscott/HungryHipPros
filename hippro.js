@@ -8,12 +8,11 @@ fs.readFile ("meetUp.txt",function(err,data){
 	});
 var rsvp = ""
 fs.readFile ("rsvp.txt",function(err,data){
-			if(err){ console.log(err)}
-				else {rsvp = data.toString()}
-			});
-var line = rsvp.split("**").length
-var line2 = line.toString()
+	if(err){ console.log(err)}
+		else {rsvp = data.toString()}
+	});
 var meetUp = ""
+console.log(rsvp)
 
 
 
@@ -24,7 +23,7 @@ var meetUp = ""
 var server = net.createServer(function(socket) {
 	console.log('client connected');
 	socket.write('Welcome to the (knowledge)Hungry Hippros RSVP Server \n');
-	socket.write('Input \"RSVP\", \"First&_LastName\", \"EmailAddress\" \nto attend the\n ' + meetUp + "\n");
+	socket.write('Input \"rsvp\", \"First&_LastName\", \"EmailAddress\" \nto attend the\n' + meetUp + "\n");
 	socket.write('\nOtherwise please input \"hc\" for a headcount of attendees\n');
 
 //recieve data
@@ -35,24 +34,68 @@ socket.on('data', function(data) {
 	
 	//headcount
 	if (temp === "hc") {
+		var line = rsvp.split("\n").length;
+		var line2 = line.toString();
 		fs.readFile ("rsvp.txt",function(err,data){
 			if(err){ console.log(err)}
 				else {rsvp = data.toString()}
 			});
-		socket.write(line2)
-	
+		socket.write(line2+" attendees.\n");
+
 		///RSVPing
-	}else if (temp2[0] === "RSVP"){fs.writeFile("rsvp.txt",temp3,function(err)
+	}else if (temp2[0] === "rsvp"){fs.writeFile("rsvp.txt",temp3,function(err)
 		{ if(err)
 			{ console.log(err);
 			}
 			else {
 				console.log("logged");
-				socket.write(temp + "added! A confirmation email with further information willbe sent.")
+				socket.write("\n"+temp + "\nadded! A confirmation email with \nfurther information will be sent.\n\n")
+			}
+		});
 
+
+//Admin
+
+} else if (temp2[0]==="/admin/"){socket.write("password:\n")
+socket.on('data', function(data) {
+	var inPut=data.toString().trim();
+	if (inPut=== "puppies") {socket.write("\nrsvp_list\nnew_meet\nclear\n")
+}
+
+socket.on('data', function(data) {
+	var inPut=data.toString().trim();
+	//readRSVP
+	if (inPut=== "rsvp_list") {fs.readFile ("rsvp.txt",function(err,data){
+	if(err){ console.log(err)}
+		else {socket.write(data.toString()+"\n")
+		};
+	});
+	
+//clearRSVP
+	}else if (inPut==="clear"){ rsvp = ""
+	{fs.writeFile("rsvp.txt",rsvp,function(err)
+		{ if(err)
+			{ console.log(err);}
+			else {
+				socket.write("cleared");
 			}
 		});
 }
+} else if(inPut==="new_meet"){socket.write("please enter new info"); socket.on('data', function(data) {
+	newMeetUp=data.toString().trim();
+	{fs.writeFile("meetUp.txt",newMeetUp,function(err)
+		{ if(err)
+			{ console.log(err);}
+			else {
+				socket.write('message has been switched to\n' +newMeetup);
+			}
+		});
+}
+
+});
+};
+
+});
 });
 
 
@@ -62,6 +105,8 @@ socket.on('data', function(data) {
 
 socket.on('end', function() {
 	console.log('client disconnected');
+});
+};
 });
 });
 
