@@ -23,7 +23,7 @@ console.log(rsvp)
 var server = net.createServer(function(socket) {
 	console.log('client connected');
 	socket.write('Welcome to the (knowledge)Hungry Hippros RSVP Server \n');
-	socket.write('Input \"rsvp\", \"First&_LastName\", \"EmailAddress\" \nto attend the\n' + meetUp + "\n");
+	socket.write('Input \"rsvp\", \"Name\", \"EmailAddress\" \nto attend the\n' + meetUp + "\n");
 	socket.write('\nOtherwise please input \"hc\" for a headcount of attendees\n');
 
 //recieve data
