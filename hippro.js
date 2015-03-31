@@ -40,7 +40,7 @@ socket.on('data', function(data) {
 			if(err){ console.log(err)}
 				else {rsvp = data.toString()}
 			});
-		socket.write(line2+" attendees.\n");
+		socket.write(line2+" attendees.\n(ctrl + ]) to exit\n");
 
 		///RSVPing
 	}else if (temp2[0] === "rsvp"){fs.writeFile("rsvp.txt",temp3,function(err)
@@ -49,7 +49,7 @@ socket.on('data', function(data) {
 			}
 			else {
 				console.log("logged");
-				socket.write("\n"+temp + "\nadded! A confirmation email with \nfurther information will be sent.\n\n")
+				socket.write("\n"+temp + "\nadded! A confirmation email with \nfurther information will be sent.\n\n (ctrl + ]) to exit\n")
 			}
 		});
 
@@ -67,7 +67,7 @@ socket.on('data', function(data) {
 	//readRSVP
 	if (inPut=== "rsvp_list") {fs.readFile ("rsvp.txt",function(err,data){
 	if(err){ console.log(err)}
-		else {socket.write(data.toString()+"\n")
+		else {socket.write(data.toString()+"\n(ctrl + ]) to exit\n")
 		};
 	});
 	
@@ -77,7 +77,7 @@ socket.on('data', function(data) {
 		{ if(err)
 			{ console.log(err);}
 			else {
-				socket.write("cleared");
+				socket.write("cleared\n(ctrl + ]) to exit\n");
 			}
 		});
 }
@@ -87,7 +87,7 @@ socket.on('data', function(data) {
 		{ if(err)
 			{ console.log(err);}
 			else {
-				socket.write('message has been switched to\n' +newMeetup);
+				socket.write('message has been switched to\n' +newMeetup " (ctrl + ]) to exit\n");
 			}
 		});
 }
